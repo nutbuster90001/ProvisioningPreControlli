@@ -5,8 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
 import it.athora.provisioningprecontrolli.bo.Record;
@@ -14,7 +14,7 @@ import it.athora.provisioningprecontrolli.utils.PropertiesLoader;
 
 public final class CsvWriter {
 
-	private static final Logger logger = Logger.getLogger(CsvWriter.class.getName());
+        private static final Logger logger = LoggerFactory.getLogger(CsvWriter.class);
 
 	public static void writeCsv(Path originalFilePath, String suffix, List<Record> rows)
 			throws IOException {
@@ -22,7 +22,7 @@ public final class CsvWriter {
 		String newFileName = originalFileName.replace(".csv", "") + suffix;
 
 		if (rows == null || rows.isEmpty()) {
-			logger.log(Level.INFO, "Nessun file {0} creato", newFileName);
+                        logger.info("Nessun file {} creato", newFileName);
 			return;
 		}
 
@@ -32,7 +32,7 @@ public final class CsvWriter {
 		List<String> lines = rows.stream().map(Record::toCsvString).collect(Collectors.toList());
 
 		Files.write(newFilePath, lines);
-		logger.log(Level.INFO, "Scritti {0} record in {1}", new Object[] { rows.size(), newFilePath });
+                logger.info("Scritti {} record in {}", rows.size(), newFilePath);
 	}
 
 }

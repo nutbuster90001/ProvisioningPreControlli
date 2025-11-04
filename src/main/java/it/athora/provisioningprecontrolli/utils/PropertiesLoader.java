@@ -6,12 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class PropertiesLoader {
 
-	private static final Logger logger = Logger.getLogger(PropertiesLoader.class.getName());
+        private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
 	private static final Properties configProp = new Properties();
 
 	private PropertiesLoader() {
@@ -65,7 +65,7 @@ public final class PropertiesLoader {
 
 		try (InputStream inputStream = Files.newInputStream(path)) {
 			configProp.load(inputStream);
-			logger.log(Level.INFO, "Lettura properties da {0}", path.toAbsolutePath());
+                        logger.info("Lettura properties da {}", path.toAbsolutePath());
 		} catch (IOException e) {
 			throw new IllegalStateException("File di properties " + path.toAbsolutePath() + " non trovato");
 		}

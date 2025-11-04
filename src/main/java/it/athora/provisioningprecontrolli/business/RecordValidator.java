@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 import it.athora.provisioningprecontrolli.bo.AgenziaListino;
@@ -21,7 +21,7 @@ import it.athora.provisioningprecontrolli.utils.TextUtils;
 
 public final class RecordValidator {
 
-	private static final Logger logger = Logger.getLogger(RecordValidator.class.getName());
+        private static final Logger logger = LoggerFactory.getLogger(RecordValidator.class);
 
 	private static final Pattern NON_ASCII_PATTERN = Pattern.compile("[^\\p{ASCII}]");
 	private static final Pattern EMAIL_PATTERN = Pattern.compile("^(?!.*\\.\\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
@@ -90,7 +90,7 @@ public final class RecordValidator {
 	public boolean validate(Record record) {
 		for (LogPredicate check : checks) {
 			if (!check.test(record)) {
-				logger.log(Level.WARNING, check.logMessage(record));
+                                logger.warn(check.logMessage(record));
 				return false;
 			}
 		}
