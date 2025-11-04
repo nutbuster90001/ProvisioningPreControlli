@@ -6,6 +6,7 @@
 
     <groupId>it.athora</groupId>
     <artifactId>ProvisioningPreControlli</artifactId>
+    <packaging>jar</packaging>
     <version>1.0.0</version>
 
     <properties>
