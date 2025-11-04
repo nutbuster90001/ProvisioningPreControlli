@@ -1,16 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+
+    <!-- Scrive i log in append con rolling giornaliero -->
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>provisioningprecontrolli.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Log giornalieri: incassi-tdg.2025-07-27.log, ecc. -->
+            <fileNamePattern>provisioningprecontrolli.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- Tiene i log per 30 giorni -->
+            <maxHistory>30</maxHistory>
+
+            <!-- Limita le dimensioni a 1GB totali per tutti i log -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
-            <charset>UTF-8</charset>
+            <!-- Formato log: timestamp, thread, level, logger, message -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="it.athora.provisioningprecontrolli" level="INFO" additivity="false">
-        <appender-ref ref="CONSOLE" />
-    </logger>
+    <!-- Mostra i log anche in console -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-    <root level="WARN">
-        <appender-ref ref="CONSOLE" />
+    <!-- Root logger: logga INFO+ su file e console -->
+    <root level="INFO">
+        <appender-ref ref="ROLLING_FILE"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
+
 </configuration>
