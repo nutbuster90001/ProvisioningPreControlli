@@ -11,84 +11,85 @@ import org.slf4j.LoggerFactory;
 
 public final class PropertiesLoader {
 
-        private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
-	private static final Properties configProp = new Properties();
+  private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
+  private static final Properties configProp = new Properties();
 
-	private PropertiesLoader() {
+  private PropertiesLoader() {}
 
-	}
+  static {
+    loadProperties();
+  }
 
-	static {
-		loadProperties();
-	}
+  public static String getInputFolder() {
+    String inputFolderPath = getConfigProperty(PropertyKeys.INPUT_FOLDER);
+    folderPathValidatorAndNormalize(inputFolderPath);
+    return inputFolderPath;
+  }
 
-	public static String getInputFolder() {
-		String inputFolderPath = getConfigProperty(PropertyKeys.INPUT_FOLDER);
-		folderPathValidatorAndNormalize(inputFolderPath);
-		return inputFolderPath;
-	}
+  public static String getOutputFolder() {
+    String outputFolderPath = getConfigProperty(PropertyKeys.OUTPUT_FOLDER);
+    folderPathValidatorAndNormalize(outputFolderPath);
+    return outputFolderPath;
+  }
 
-	public static String getOutputFolder() {
-		String outputFolderPath = getConfigProperty(PropertyKeys.OUTPUT_FOLDER);
-		folderPathValidatorAndNormalize(outputFolderPath);
-		return outputFolderPath;
-	}
+  public static String getCsvDelimiter() {
+    String delimiter = getConfigProperty(PropertyKeys.CSV_DELIMITER);
+    if (delimiter.length() != 1
+        || Character.isWhitespace(delimiter.charAt(0))
+        || delimiter.charAt(0) == '\n'
+        || delimiter.charAt(0) == '\r') {
+      throw new IllegalStateException(
+          "csv.delimiter deve essere un carattere visibile e non uno spazio o newline: '"
+              + delimiter
+              + "'");
+    }
+    return delimiter;
+  }
 
-	public static String getCsvDelimiter() {
-		String delimiter = getConfigProperty(PropertyKeys.CSV_DELIMITER);
-		if (delimiter.length() != 1 || Character.isWhitespace(delimiter.charAt(0)) || delimiter.charAt(0) == '\n'
-				|| delimiter.charAt(0) == '\r') {
-			throw new IllegalStateException(
-					"csv.delimiter deve essere un carattere visibile e non uno spazio o newline: '" + delimiter + "'");
-		}
-		return delimiter;
-	}
+  private static void folderPathValidatorAndNormalize(String folderPathStr) {
+    Path folderPath = Paths.get(folderPathStr).toAbsolutePath().normalize();
 
-	private static void folderPathValidatorAndNormalize(String folderPathStr) {
-		Path folderPath = Paths.get(folderPathStr).toAbsolutePath().normalize();
+    if (!Files.exists(folderPath)) {
+      throw new IllegalStateException("Il percorso specificato non esiste: " + folderPath);
+    }
+    if (!Files.isDirectory(folderPath)) {
+      throw new IllegalStateException("Il percorso specificato non � una cartella: " + folderPath);
+    }
+  }
 
-		if (!Files.exists(folderPath)) {
-			throw new IllegalStateException("Il percorso specificato non esiste: " + folderPath);
-		}
-		if (!Files.isDirectory(folderPath)) {
-			throw new IllegalStateException("Il percorso specificato non � una cartella: " + folderPath);
-		}
+  private static void loadProperties() {
+    Path path = Paths.get("properties", "provisioningprecontrolli.properties");
 
-	}
+    if (!Files.exists(path)) {
+      throw new IllegalStateException(
+          "File di properties " + path.toAbsolutePath() + " non trovato");
+    }
 
-	private static void loadProperties() {
-		Path path = Paths.get("properties", "provisioningprecontrolli.properties");
+    try (InputStream inputStream = Files.newInputStream(path)) {
+      configProp.load(inputStream);
+      logger.info("Lettura properties da {}", path.toAbsolutePath());
+    } catch (IOException e) {
+      throw new IllegalStateException(
+          "File di properties " + path.toAbsolutePath() + " non trovato");
+    }
+  }
 
-		if (!Files.exists(path)) {
-			throw new IllegalStateException("File di properties " + path.toAbsolutePath() + " non trovato");
-		}
+  private static String getConfigProperty(String key) {
+    String value = configProp.getProperty(key);
 
-		try (InputStream inputStream = Files.newInputStream(path)) {
-			configProp.load(inputStream);
-                        logger.info("Lettura properties da {}", path.toAbsolutePath());
-		} catch (IOException e) {
-			throw new IllegalStateException("File di properties " + path.toAbsolutePath() + " non trovato");
-		}
-	}
+    if (TextUtils.isBlank(value)) {
+      throw new IllegalStateException(
+          "Valore mancante o vuoto per la propriet� obbligatoria " + key);
+    }
+    return value;
+  }
 
-	private static String getConfigProperty(String key) {
-		String value = configProp.getProperty(key);
+  private static final class PropertyKeys {
 
-		if (TextUtils.isBlank(value)) {
-			throw new IllegalStateException("Valore mancante o vuoto per la propriet� obbligatoria " + key);
-		}
-		return value;
-	}
+    private PropertyKeys() {}
 
-	private static final class PropertyKeys {
-
-		private PropertyKeys() {
-
-		}
-
-		public static final String INPUT_FOLDER = "input.folder";
-		public static final String OUTPUT_FOLDER = "output.folder";
-		public static final String CSV_DELIMITER = "csv.delimiter";
-	}
-
+    public static final String INPUT_FOLDER = "input.folder";
+    public static final String OUTPUT_FOLDER = "output.folder";
+    public static final String CSV_DELIMITER = "csv.delimiter";
+  }
 }
