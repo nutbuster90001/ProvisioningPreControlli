@@ -23,10 +23,6 @@ public enum LunghezzaCampo {
     this.lunghezzaCampo = lunghezzaCampo;
   }
 
-  public int getLunghezzaCampo() {
-    return lunghezzaCampo;
-  }
-
   public static boolean isCampoTroppoLungo(String nomeCampo, String valoreCampo) {
     if (TextUtils.isBlank(valoreCampo)) return false;
     return valoreCampo.length() > lunghezzaCampoFromNomeCampo(nomeCampo);
@@ -45,5 +41,9 @@ public enum LunghezzaCampo {
       }
     }
     return Optional.empty();
+  }
+
+  public int getLunghezzaCampo() {
+    return lunghezzaCampo;
   }
 }

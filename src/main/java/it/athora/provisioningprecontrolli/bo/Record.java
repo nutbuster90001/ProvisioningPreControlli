@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 public final class Record {
 
+  private final String originalLine;
+  private final boolean isMalformed;
   private String email;
   private String nome;
   private String cognome;
@@ -20,8 +22,6 @@ public final class Record {
   private String agenzia;
   private String subagenzia;
   private String listino;
-  private final String originalLine;
-  private final boolean isMalformed;
 
   public Record(final String originalLine, String[] fields) {
     this.originalLine = originalLine;

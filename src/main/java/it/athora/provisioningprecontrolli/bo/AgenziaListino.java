@@ -13,7 +13,15 @@ public enum AgenziaListino {
       new String[] {"FILIALISTA Banca Bper"}),
   FACILEIT("Facile.it", new String[] {"005101", "5101"}, new String[] {"BROKER FACILE"}),
   SCM("SCM", new String[] {"001820", "1820"}, new String[] {"BROKER VITA"}),
-  VITANUOVA("Vita Nuova", new String[] {"005153", "5153"}, new String[] {"BROKER VITA"});
+  VITANUOVA("Vita Nuova", new String[] {"005153", "5153"}, new String[] {"BROKER VITA"}),
+  TORREDELGRECO(
+      "Torre del Greco",
+      new String[] {"001822", "1822"},
+      new String[] {"FilialeBanca", "DirezioneBanca"}),
+  BANCADELFUCINO(
+      "Banca del Fucino",
+      new String[] {"001821", "1821"},
+      new String[] {"FilialeBanca", "DirezioneBanca"});
 
   private final String nome;
   private final String[] agenzie;

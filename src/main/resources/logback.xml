@@ -3,7 +3,7 @@
 
     <!-- Scrive i log in append con rolling giornaliero -->
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>provisioningprecontrolli.log</file>
+        <file>log/provisioningprecontrolli.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Log giornalieri: incassi-tdg.2025-07-27.log, ecc. -->

@@ -14,11 +14,11 @@ public final class PropertiesLoader {
   private static final Logger logger = LoggerFactory.getLogger(PropertiesLoader.class);
   private static final Properties configProp = new Properties();
 
-  private PropertiesLoader() {}
-
   static {
     loadProperties();
   }
+
+  private PropertiesLoader() {}
 
   public static String getInputFolder() {
     String inputFolderPath = getConfigProperty(PropertyKeys.INPUT_FOLDER);
@@ -86,10 +86,10 @@ public final class PropertiesLoader {
 
   private static final class PropertyKeys {
 
-    private PropertyKeys() {}
-
     public static final String INPUT_FOLDER = "input.folder";
     public static final String OUTPUT_FOLDER = "output.folder";
     public static final String CSV_DELIMITER = "csv.delimiter";
+
+    private PropertyKeys() {}
   }
 }
