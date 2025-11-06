@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <property file="properties/provisioningprecontrolli.properties"/>
+    <property name="LOG_FOLDER" value="${log.folder}"/>
+
     <!-- Scrive i log in append con rolling giornaliero -->
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>log/provisioningprecontrolli.log</file>
+        <file>${LOG_FOLDER}/provisioningprecontrolli.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Log giornalieri: incassi-tdg.2025-07-27.log, ecc. -->
-            <fileNamePattern>log/provisioningprecontrolli.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_FOLDER}/provisioningprecontrolli.%d{yyyy-MM-dd}.log</fileNamePattern>
 
             <!-- Tiene i log per 30 giorni -->
             <maxHistory>30</maxHistory>
