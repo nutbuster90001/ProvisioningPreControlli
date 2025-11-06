@@ -7,7 +7,7 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Log giornalieri: incassi-tdg.2025-07-27.log, ecc. -->
-            <fileNamePattern>provisioningprecontrolli.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>log/provisioningprecontrolli.%d{yyyy-MM-dd}.log</fileNamePattern>
 
             <!-- Tiene i log per 30 giorni -->
             <maxHistory>30</maxHistory>
