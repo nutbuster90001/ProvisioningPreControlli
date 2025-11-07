@@ -9,7 +9,7 @@
         <file>${LOG_FOLDER}/provisioningprecontrolli.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- Log giornalieri: incassi-tdg.2025-07-27.log, ecc. -->
+            <!-- Log giornalieri: provisioningprecontrolli.2025-07-27.log, ecc. -->
             <fileNamePattern>${LOG_FOLDER}/provisioningprecontrolli.%d{yyyy-MM-dd}.log</fileNamePattern>
 
             <!-- Tiene i log per 30 giorni -->
